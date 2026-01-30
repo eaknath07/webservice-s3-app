@@ -79,12 +79,9 @@ revolte:
             loadBalancerMode: dedicated
             variables:
               BASE_URL: /api/v1
-              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
-              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
-              REGION: '#{storage_bucket_service.region}'
-              CACHE_HOST: '#{cache.cacheHost}'
-              CACHE_PORT: '#{cache.cachePort}'
-              CACHE_PASSWORD: '#{cache.cachePassword}'
+              ACCESS_KEY_ID: '123'
+              SECRET_ACCESS_KEY_ID: '123'
+              REGION: '123'
           specifications:
             cpu: 2
             memory: 1
@@ -92,7 +89,7 @@ revolte:
             autoScaling:
               replica:
                 min: 1
-                max: 1
+                max: 3
         rid_2:
           type: STORAGE_BUCKET
           name: storage_bucket_service
@@ -100,13 +97,6 @@ revolte:
             bucketName: storage-mango-s3-prod
             versioningStatus: enabled
             public: true
-        rid_3:
-          type: CACHE
-          name: cache
-          specifications:
-            cpu: 2
-            memory: 0.5
-            replica: 1
     preview:
       services:
         rid_1:
@@ -119,12 +109,9 @@ revolte:
             loadBalancerMode: dedicated
             variables:
               BASE_URL: /api/v1
-              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
-              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
-              REGION: '#{storage_bucket_service.region}'
-              CACHE_HOST: '#{cache.cacheHost}'
-              CACHE_PORT: '#{cache.cachePort}'
-              CACHE_PASSWORD: '#{cache.cachePassword}'
+             ACCESS_KEY_ID: '123'
+              SECRET_ACCESS_KEY_ID: '123'
+              REGION: '123'
           specifications:
             cpu: 2
             memory: 1
