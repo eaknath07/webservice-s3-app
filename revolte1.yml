@@ -1,0 +1,187 @@
+revolte:
+  version: '1.0'
+  project: Octo-code
+  appName: OCTO S3
+  config:
+    codeReview:
+      summarize: true
+      suggestFixes: false
+      commentStyle: Balanced
+    codeQuality:
+      codeStyle:
+        rules:
+          javascript/arrayCallbackReturn: error
+  env:
+    staging:
+      branch: main
+      codeReview: true
+      codeQuality: true
+      services:
+        rid_1:
+          type: WEB_SERVICE
+          name: web_service
+          entryPoint: app.js
+          properties:
+            health: /health
+            port: 8080
+            variables:
+              BASE_URL: /api/v1
+              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
+              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
+              REGION: '#{storage_bucket_service.region}'
+          specifications:
+            cpu: 2
+            memory: 2
+            storage: 30
+        rid_2:
+          type: STORAGE_BUCKET
+          name: storage_bucket_service
+          configurations:
+            bucketName: kitkat-tuesday-buck2
+            versioningStatus: enabled
+            public: false
+            corsRules:
+              - id: Rule1
+                methods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - HEAD
+                allowedHeaders:
+                  - '*'
+                origins:
+                  - https://breezy-amaranth-smelt.injured-brown.poddleops.com/
+                maxAgeSeconds: 300
+    qa:
+      branch: main
+      codeReview: false
+      codeQuality: false
+      services:
+        rid_1:
+          type: WEB_SERVICE
+          name: web_service
+          entryPoint: app.js
+          properties:
+            health: /health
+            port: 8080
+            variables:
+              BASE_URL: /api/v1
+              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
+              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
+              REGION: '#{storage_bucket_service.region}'
+          insights:
+            cpu:
+              - cpu_time_idle
+              - cpu_time_user
+              - cpu_time_system
+          specifications:
+            cpu: 2
+            memory: 1
+            storage: 30
+        rid_2:
+          type: STORAGE_BUCKET
+          name: storage_bucket_service
+          configurations:
+            bucketName: kitkat-tuesday-buck1
+            versioningStatus: enabled
+            public: true
+            corsRules:
+              - id: Rule1
+                methods:
+                  - GET
+                  - PUT
+                  - POST
+                  - HEAD
+                  - DELETE
+                allowedHeaders:
+                  - '*'
+                origins:
+                  - '*'
+                maxAgeSeconds: 300
+    production:
+      branch: main
+      codeReview: true
+      codeQuality: true
+      services:
+        rid_1:
+          type: WEB_SERVICE
+          name: web_service
+          entryPoint: app.js
+          properties:
+            health: /health
+            port: 8080
+            variables:
+              BASE_URL: /api/v1
+              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
+              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
+              REGION: '#{storage_bucket_service.region}'
+          insights:
+            cpu:
+              - cpu_time_idle
+              - cpu_time_user
+              - cpu_time_system
+            swap:
+              - swap_used
+            mem:
+              - mem_total
+              - mem_free
+            disk:
+              - disk_used
+              - disk_total
+              - disk_free
+          specifications:
+            cpu: 2
+            memory: 2
+            storage: 30
+            autoScaling:
+              replica:
+                min: 1
+                max: 1
+        rid_2:
+          type: STORAGE_BUCKET
+          name: storage_bucket_service
+          configurations:
+            bucketName: kitkat-tuesday-buck4
+            versioningStatus: suspended
+            public: false
+            corsRules:
+              - id: Rule 2
+                methods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - HEAD
+                allowedHeaders:
+                  - '*'
+                origins:
+                  - '*'
+                maxAgeSeconds: 100
+    preview:
+      codeReview: false
+      codeQuality: false
+      services:
+        rid_1:
+          type: WEB_SERVICE
+          name: web_service
+          entryPoint: index.js
+          properties:
+            health: /health
+            port: 8080
+            variables:
+              BASE_URL: /api/v1
+              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
+              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
+              REGION: '#{storage_bucket_service.region}'
+          specifications:
+            cpu: 2
+            memory: 1
+            storage: 30
+        rid_2:
+          type: STORAGE_BUCKET
+          name: storage_bucket_service
+          configurations:
+            bucketName: kitkat-tuesday-buck3
+            versioningStatus: enabled
+            public: true

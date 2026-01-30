@@ -1,0 +1,162 @@
+revolte:
+  version: '1.0'
+  project: Storage Project
+  appName: s3-application
+  env:
+    staging:
+      branch: main
+      services:
+        rid_1:
+          type: WEB_SERVICE
+          name: web_service
+          entryPoint: app.js
+          properties:
+            health: /health
+            port: 8080
+            loadBalancerMode: dedicated
+            variables:
+              BASE_URL: /api/v1
+              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
+              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
+              REGION: '#{storage_bucket_service.region}'
+              CACHE_HOST: '#{cache.cacheHost}'
+              CACHE_PORT: '#{cache.cachePort}'
+              CACHE_PASSWORD: '#{cache.cachePassword}'
+          specifications:
+            cpu: 2
+            memory: 1
+            storage: 30
+        rid_2:
+          type: STORAGE_BUCKET
+          name: storage_bucket_service
+          configurations:
+            bucketName: storage-mango-s3-staging
+            versioningStatus: enabled
+            public: true
+        rid_3:
+          type: CACHE
+          name: cache
+          specifications:
+            cpu: 2
+            memory: 0.5
+    qa:
+      branch: main
+      services:
+        rid_1:
+          type: WEB_SERVICE
+          name: web_service
+          entryPoint: app.js
+          properties:
+            health: /health
+            port: 8080
+            loadBalancerMode: dedicated
+            variables:
+              BASE_URL: /api/v1
+              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
+              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
+              REGION: '#{storage_bucket_service.region}'
+              CACHE_HOST: '#{cache.cacheHost}'
+              CACHE_PORT: '#{cache.cachePort}'
+              CACHE_PASSWORD: '#{cache.cachePassword}'
+          specifications:
+            cpu: 2
+            memory: 2
+            storage: 30
+        rid_2:
+          type: STORAGE_BUCKET
+          name: storage_bucket_service
+          configurations:
+            bucketName: storage-mango-s3-qa
+            versioningStatus: enabled
+            public: false
+            corsRules:
+              - id: '1'
+                methods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                origins:
+                  - '*'
+        rid_3:
+          type: CACHE
+          name: cache
+          specifications:
+            cpu: 2
+            memory: 0.5
+    production:
+      branch: main
+      services:
+        rid_1:
+          type: WEB_SERVICE
+          name: web_service
+          entryPoint: app.js
+          properties:
+            health: /health
+            port: 8080
+            loadBalancerMode: dedicated
+            variables:
+              BASE_URL: /api/v1
+              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
+              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
+              REGION: '#{storage_bucket_service.region}'
+              CACHE_HOST: '#{cache.cacheHost}'
+              CACHE_PORT: '#{cache.cachePort}'
+              CACHE_PASSWORD: '#{cache.cachePassword}'
+          specifications:
+            cpu: 2
+            memory: 1
+            storage: 30
+            autoScaling:
+              replica:
+                min: 1
+                max: 1
+        rid_2:
+          type: STORAGE_BUCKET
+          name: storage_bucket_service
+          configurations:
+            bucketName: storage-mango-s3-prod
+            versioningStatus: enabled
+            public: true
+        rid_3:
+          type: CACHE
+          name: cache
+          specifications:
+            cpu: 2
+            memory: 0.5
+            replica: 1
+    preview:
+      services:
+        rid_1:
+          type: WEB_SERVICE
+          name: web_service
+          entryPoint: app.js
+          properties:
+            health: /health
+            port: 8080
+            loadBalancerMode: dedicated
+            variables:
+              BASE_URL: /api/v1
+              ACCESS_KEY_ID: '#{storage_bucket_service.accessKeyId}'
+              SECRET_ACCESS_KEY_ID: '#{storage_bucket_service.secretAccessKeyId}'
+              REGION: '#{storage_bucket_service.region}'
+              CACHE_HOST: '#{cache.cacheHost}'
+              CACHE_PORT: '#{cache.cachePort}'
+              CACHE_PASSWORD: '#{cache.cachePassword}'
+          specifications:
+            cpu: 2
+            memory: 1
+            storage: 30
+        rid_2:
+          type: STORAGE_BUCKET
+          name: storage_bucket_service
+          configurations:
+            bucketName: storage-mango-s3-preview
+            versioningStatus: enabled
+            public: true
+        rid_3:
+          type: CACHE
+          name: cache
+          specifications:
+            cpu: 2
+            memory: 0.5
