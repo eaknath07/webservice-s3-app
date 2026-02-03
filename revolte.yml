@@ -1,7 +1,7 @@
 revolte:
   version: '1.0'
-  project: storage-Project
-  appName: s3-app
+  project: object-storage
+  appName: bucket-app
   env:
     staging:
       branch: main
