@@ -46,6 +46,11 @@ revolte:
               ACCESS_KEY_ID: '123'
               SECRET_ACCESS_KEY_ID: '2222'
               REGION: '123'
+          insights:
+            disk:
+              - disk_used
+              - disk_total
+              - disk_free
           specifications:
             cpu: 2
             memory: 2
