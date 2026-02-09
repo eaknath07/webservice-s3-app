@@ -1,7 +1,7 @@
 revolte:
   version: '1.0'
-  project: object-storage
-  appName: bucket-app
+  project: webservice-app
+  appName: ws-app
   env:
     staging:
       branch: main
