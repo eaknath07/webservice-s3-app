@@ -59,7 +59,7 @@ revolte:
           type: STORAGE_BUCKET
           name: storage_bucket_service
           configurations:
-            bucketName: storage-mango-s3-qa
+            bucketName: storage-mango-s3-qa-sm
             versioningStatus: enabled
             public: false
             corsRules:
